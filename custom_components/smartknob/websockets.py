@@ -129,7 +129,7 @@ class SmartknobAppsView(HomeAssistantView):
         coordinator: SmartknobCoordinator = hass.data[DOMAIN]["coordinator"]
         if "mac_address" and "apps" in data:
             apps = data.get("apps")
-
+            
             await coordinator.store.async_update_apps(data.get("mac_address"), apps)
             await coordinator.update()
 

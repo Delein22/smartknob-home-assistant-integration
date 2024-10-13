@@ -69,6 +69,10 @@ class MediaState:
         self.playing = state["playing"]
         self.previous = state["previous"]
         self.next = state["next"]
+        self.interpret = state["interpret"]
+        self.title = state["title"]
+        self.playlist = state["playlist"]
+        self.playbackDevice = state["playbackDevice"]
 
 
 class LockState:

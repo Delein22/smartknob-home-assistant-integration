@@ -34,6 +34,12 @@ DOMAIN_STOPWATCH = "stopwatch"
 BLINDS = "blinds"
 DOMAIN_BLINDS = "cover"
 
+MEDIAPLAYER = "mediaplayer"
+DOMAIN_MEDIAPLAYER = "mediaplayer"
+
+ 
+
+
 
 APP_SLUGS = [
     {
@@ -70,6 +76,12 @@ APP_SLUGS = [
         "slug": BLINDS,
         "friendly_name": "Blinds",
         "domain": DOMAIN_BLINDS,
+        "supported_features": 1,
+    },
+    {
+        "slug": MEDIAPLAYER,
+        "friendly_name": "Mediaplayer",
+        "domain": DOMAIN_MEDIAPLAYER,
         "supported_features": 1,
     },
 ]
