@@ -158,18 +158,22 @@ class Runtime:
                 }.get(service)
                 if service == "media_play_pause":
                     required = MEDIA_PAUSE if target.state == "playing" else MEDIA_PLAY
-                state_fallback = (
-                    (service in ("media_play", "media_pause", "media_play_pause")
-                     and target.state != "off")
-                    or (service == "turn_on" and target.state == "off")
-                    or (service == "turn_off" and target.state != "off")
+                # TVs and streaming integrations often omit transport and
+                # power feature flags while the corresponding standard Home
+                # Assistant services still work. Forward those commands and
+                # let Home Assistant/the entity decide whether to accept them.
+                permissive_service = service in (
+                    "media_play", "media_pause", "media_play_pause",
+                    "turn_on", "turn_off",
                 )
-                if required is not None and not features & required and not state_fallback:
+                if required is not None and not features & required and not permissive_service:
                     self.feedback[app["app_id"]] = (seq, "unsupported")
                     continue
             try:
-                async with asyncio.timeout(2):
-                    await self.hass.services.async_call(domain, service, data, blocking=True)
+                # Do not wait for slow TVs to finish the command. Some devices
+                # need several seconds but have already accepted and execute it;
+                # waiting caused a false "failed" message on the SmartKnob.
+                await self.hass.services.async_call(domain, service, data, blocking=False)
                 if app and app["app_slug"] == "media_player":
                     self.feedback[app["app_id"]] = (seq, "ok")
             except (HomeAssistantError, TimeoutError):

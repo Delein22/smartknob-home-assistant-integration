@@ -11,6 +11,8 @@ Diese benutzerdefinierte Home-Assistant-Integration verbindet den SmartKnob dire
 - Szenen: aktivieren
 - Media Player: Lautstärke, Wiedergabe, Stumm, Titelwechsel, Quellen und Ein/Aus;
   übliche TV-Befehle werden auch bei unvollständig gemeldeten Fähigkeiten angeboten
+- Play, Pause und Ein/Aus werden sofort an Home Assistant übergeben, damit langsam
+  antwortende Fernseher keine falsche Fehlermeldung am Knob auslösen
 - Anzeige von Titel und Künstler
 - Auswahl von bis zu zehn Home-Assistant-Entitäten
 - klare Verbindungsanzeige und kein späteres Ausführen alter Befehle
