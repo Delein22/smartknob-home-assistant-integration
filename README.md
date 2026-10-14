@@ -9,9 +9,10 @@ Diese benutzerdefinierte Home-Assistant-Integration verbindet den SmartKnob dire
 - lokale, mit dem Geräteschlüssel geschützte Kommunikation
 - Leuchten: Ein/Aus, Helligkeit, RGB und Farbtemperatur
 - Szenen: aktivieren
-- Media Player: Lautstärke, Wiedergabe, Stumm, Titelwechsel, Quellen und Ein/Aus
+- Media Player: Lautstärke, Wiedergabe, Stumm, Titelwechsel, Quellen und Ein/Aus;
+  übliche TV-Befehle werden auch bei unvollständig gemeldeten Fähigkeiten angeboten
 - Anzeige von Titel und Künstler
-- Auswahl von bis zu acht Home-Assistant-Entitäten
+- Auswahl von bis zu zehn Home-Assistant-Entitäten
 - klare Verbindungsanzeige und kein späteres Ausführen alter Befehle
 
 ## Installation über HACS
@@ -30,7 +31,7 @@ Danach **SmartKnob Local** herunterladen und Home Assistant neu starten.
 2. **SmartKnob Local** auswählen. Ein per mDNS gefundener Knob erscheint normalerweise automatisch.
 3. Falls die Erkennung nicht funktioniert, die IPv4-Adresse des Knobs eingeben.
 4. Den 64-stelligen Geräteschlüssel eingeben.
-5. Bis zu acht Leuchten, Szenen oder Media Player auswählen.
+5. Bis zu zehn Leuchten, Szenen oder Media Player auswählen.
 
 Nur eine Home-Assistant-Instanz sollte den Knob gleichzeitig steuern. Eine bisher verwendete Testintegration daher vor der Einrichtung deaktivieren.
 

@@ -3,5 +3,5 @@
 DOMAIN = "smartknob_local"
 CONF_KEY = "device_key"
 CONF_LIGHTS = "lights"
-MAX_LIGHTS = 8
+MAX_ENTITIES = 10
 POLL_SECONDS = 0.25

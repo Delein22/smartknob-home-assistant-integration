@@ -10,7 +10,7 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import selector
 
-from .const import CONF_KEY, CONF_LIGHTS, DOMAIN, MAX_LIGHTS
+from .const import CONF_KEY, CONF_LIGHTS, DOMAIN, MAX_ENTITIES
 from .protocol import AuthenticationError, Client, ProtocolError, make_app
 
 
@@ -32,7 +32,7 @@ def selection_schema(default=None):
 
 
 def selected_apps(hass, selection):
-    if not isinstance(selection, list) or not 1 <= len(selection) <= MAX_LIGHTS or len(set(selection)) != len(selection):
+    if not isinstance(selection, list) or not 1 <= len(selection) <= MAX_ENTITIES or len(set(selection)) != len(selection):
         raise ProtocolError("invalid_selection")
     apps = []
     for entity_id in selection:

@@ -13,6 +13,7 @@ import re
 from typing import Any
 
 MAX_BODY = 16384
+MAX_COMMANDS = 10
 MEDIA_PAUSE = 1
 MEDIA_VOLUME_SET = 4
 MEDIA_VOLUME_MUTE = 8
@@ -148,18 +149,27 @@ def light_state(app: dict, state: str | None, attributes: dict) -> dict:
         artist = artist if isinstance(artist, str) else ""
         title = title.encode("utf-8")[:63].decode("utf-8", errors="ignore")
         artist = artist.encode("utf-8")[:63].decode("utf-8", errors="ignore")
-        return {"app_id": app["app_id"], "available": state not in (None, "unknown", "unavailable"),
+        available = state not in (None, "unknown", "unavailable")
+        powered = available and state != "off"
+        # Several TV integrations under-report transport and power feature
+        # flags although their standard media_player services work. Expose the
+        # state-appropriate controls and let HA report a real service failure.
+        can_play = bool(features & MEDIA_PLAY) or powered
+        can_pause = bool(features & MEDIA_PAUSE) or powered
+        can_turn_on = bool(features & MEDIA_TURN_ON) or (available and not powered)
+        can_turn_off = bool(features & MEDIA_TURN_OFF) or powered
+        return {"app_id": app["app_id"], "available": available,
                 "playing": state == "playing", "volume": round(volume * 100),
                 "muted": attributes.get("is_volume_muted") is True,
-                "powered": state != "off",
+                "powered": powered,
                 "can_volume": bool(features & MEDIA_VOLUME_SET),
-                "can_play": bool(features & MEDIA_PLAY),
-                "can_pause": bool(features & MEDIA_PAUSE),
+                "can_play": can_play,
+                "can_pause": can_pause,
                 "can_mute": bool(features & MEDIA_VOLUME_MUTE),
                 "can_previous": bool(features & MEDIA_PREVIOUS_TRACK),
                 "can_next": bool(features & MEDIA_NEXT_TRACK),
-                "can_turn_on": bool(features & MEDIA_TURN_ON),
-                "can_turn_off": bool(features & MEDIA_TURN_OFF),
+                "can_turn_on": can_turn_on,
+                "can_turn_off": can_turn_off,
                 "can_select_source": bool(features & MEDIA_SELECT_SOURCE),
                 "source": source, "sources": sources,
                 "media_title": title, "media_artist": artist}
@@ -196,7 +206,7 @@ def commands(response: dict, apps: list[dict], boot: str, acknowledged: int) -> 
     if type(response.get("ready")) is not bool:
         raise ProtocolError("invalid_ready")
     batch = response.get("commands")
-    if not isinstance(batch, list) or len(batch) > 8 or (not response["ready"] and batch):
+    if not isinstance(batch, list) or len(batch) > MAX_COMMANDS or (not response["ready"] and batch):
         raise ProtocolError("invalid_commands")
     known = {app["app_id"]: app for app in apps}
     result = []

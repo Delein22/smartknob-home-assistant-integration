@@ -9,7 +9,7 @@
       },
       "lights": {
         "title": "Choose devices and scenes",
-        "description": "Choose one to eight lights, scenes, or media players. Turn for media volume and press briefly for play/pause.",
+        "description": "Choose one to ten lights, scenes, or media players. Turn for media volume and press briefly for play/pause.",
         "data": {"lights": "Lights, scenes, and media players"}
       },
       "reauth_confirm": {
@@ -24,7 +24,7 @@
     "error": {
       "cannot_connect": "Cannot connect, wrong device, or incompatible firmware. Check the address and local firmware.",
       "invalid_auth": "The device key was rejected. Copy all 64 characters.",
-      "invalid_selection": "Select one to eight existing lights, scenes, or media players with entity IDs shorter than 64 characters."
+      "invalid_selection": "Select one to ten existing lights, scenes, or media players with entity IDs shorter than 64 characters."
     },
     "abort": {
       "already_configured": "This SmartKnob is already configured or ignored.",
@@ -42,6 +42,6 @@
         "data": {"lights": "Lights, scenes, and media players"}
       }
     },
-    "error": {"invalid_selection": "Select one to eight existing lights, scenes, or media players with entity IDs shorter than 64 characters."}
+    "error": {"invalid_selection": "Select one to ten existing lights, scenes, or media players with entity IDs shorter than 64 characters."}
   }
 }

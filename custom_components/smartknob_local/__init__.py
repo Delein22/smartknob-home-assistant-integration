@@ -75,6 +75,7 @@ class Runtime:
         self.last_error: str | None = None
         self._listeners = set()
         self.feedback: dict[str, tuple[int, str]] = {}
+        self._media_source_cursor = 0
 
     def subscribe(self, listener):
         self._listeners.add(listener)
@@ -101,9 +102,19 @@ class Runtime:
 
     def snapshot(self) -> list[dict]:
         result = []
+        media_apps = [app for app in self.apps if app["app_slug"] == "media_player"]
+        detailed_media_id = None
+        if media_apps:
+            detailed_media_id = media_apps[self._media_source_cursor % len(media_apps)]["app_id"]
+            self._media_source_cursor = (self._media_source_cursor + 1) % len(media_apps)
         for app in self.apps:
             state = self.hass.states.get(app["entity_id"])
             item = light_state(app, state.state if state else None, state.attributes if state else {})
+            # Source lists can be large. Send one list per poll and retain the
+            # other cached lists on the knob so ten media-capable entities fit
+            # comfortably inside the bounded request body.
+            if app["app_slug"] == "media_player" and app["app_id"] != detailed_media_id:
+                item.pop("sources", None)
             if app["app_slug"] == "media_player" and app["app_id"] in self.feedback:
                 item["feedback_seq"], item["feedback"] = self.feedback[app["app_id"]]
             result.append(item)
@@ -147,7 +158,13 @@ class Runtime:
                 }.get(service)
                 if service == "media_play_pause":
                     required = MEDIA_PAUSE if target.state == "playing" else MEDIA_PLAY
-                if required is not None and not features & required:
+                state_fallback = (
+                    (service in ("media_play", "media_pause", "media_play_pause")
+                     and target.state != "off")
+                    or (service == "turn_on" and target.state == "off")
+                    or (service == "turn_off" and target.state != "off")
+                )
+                if required is not None and not features & required and not state_fallback:
                     self.feedback[app["app_id"]] = (seq, "unsupported")
                     continue
             try:
