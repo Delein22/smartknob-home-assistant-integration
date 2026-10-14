@@ -1,7 +1,3 @@
-[SmartKnob Integration](https://github.com/SeedLabs-it/smartknob-home-assistant-integration) for Home Assistant
+# SmartKnob Local
 
-This is a custom component to integrate [SmartKnob - DevKit v0.1](https://github.com/SeedLabs-it/smartknob-hardware) into [Home Assistant](https://www.home-assistant.io).
-
-Provides the following:
-- Custom panel to add and configure SmartKnob (eventually multiple knobs)
-- State changes and events synced between knob and Home Assistant
+Lokale SmartKnob-Anbindung für Home Assistant über WLAN/IP mit mDNS-Erkennung und manueller IPv4-Alternative. Unterstützt Leuchten, Szenen und Media Player ohne MQTT oder separaten WebSocket-Dienst.

@@ -1,0 +1,51 @@
+{
+  "title": "SmartKnob Local",
+  "config": {
+    "step": {
+      "user": {
+        "title": "SmartKnob verbinden",
+        "description": "Benötigt die experimentelle lokale Firmware. Kopiere den Geräteschlüssel von der Einrichtungsseite im WLAN des Knobs oder fordere ihn über USB mit kleinem l an. Das ist kein Home-Assistant-Token. HTTP ist unverschlüsselt: nur im vertrauenswürdigen Heimnetz verwenden.",
+        "data": {"host": "IP-Adresse oder Hostname des Knobs", "port": "Port", "device_key": "Geräteschlüssel"}
+      },
+      "lights": {
+        "title": "Geräte und Szenen auswählen",
+        "description": "Wähle eine bis acht Leuchten, Szenen oder Media-Player. Beim Media-Player regelt Drehen die Lautstärke und ein kurzer Druck Play/Pause.",
+        "data": {"lights": "Leuchten, Szenen und Media-Player"}
+      },
+      "reauth_confirm": {
+        "title": "Geräteschlüssel prüfen",
+        "data": {"device_key": "Geräteschlüssel"}
+      },
+      "reconfigure": {
+        "title": "Adresse des Knobs ändern",
+        "data": {"host": "IP-Adresse oder Hostname des Knobs", "port": "Port"}
+      }
+    },
+    "error": {
+      "cannot_connect": "Der SmartKnob ist nicht erreichbar. Adresse, Port, Stromversorgung und lokale Netzwerkverbindung prüfen.",
+      "invalid_address": "Adresse oder Port sind ungültig.",
+      "incompatible_firmware": "Das Gerät antwortet, unterstützt aber SmartKnob Local Protokollversion 1 nicht.",
+      "wrong_device": "Unter dieser Adresse antwortet ein anderer SmartKnob.",
+      "invalid_auth": "Geräteschlüssel abgelehnt. Bitte alle 64 Zeichen kopieren.",
+      "invalid_selection": "Wähle eine bis acht vorhandene Leuchten, Szenen oder Media-Player mit Entity-IDs unter 64 Zeichen."
+    },
+    "abort": {
+      "already_configured": "Dieser SmartKnob ist bereits eingerichtet oder ignoriert.",
+      "unsupported_device": "Dieses Gerät unterstützt das lokale Protokoll nicht.",
+      "cannot_connect": "Das gefundene Gerät konnte nicht verifiziert werden.",
+      "reauth_successful": "Geräteschlüssel aktualisiert.",
+      "reconfigure_successful": "Geräteadresse aktualisiert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Geräte und Szenen auswählen",
+        "description": "Nach einer Änderung bitte den Knob neu starten. Media-Player: drehen für Lautstärke, kurz drücken für Play/Pause.",
+        "data": {"lights": "Leuchten, Szenen und Media-Player"}
+      }
+    },
+    "error": {"invalid_selection": "Wähle eine bis acht vorhandene Leuchten, Szenen oder Media-Player mit Entity-IDs unter 64 Zeichen."}
+  },
+  "entity": {"binary_sensor": {"connection": {"name": "Verbindung"}}}
+}

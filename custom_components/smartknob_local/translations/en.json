@@ -1,0 +1,47 @@
+{
+  "title": "SmartKnob Local",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect your SmartKnob",
+        "description": "Experimental local firmware required. Copy the device key from the Knob's setup Wi-Fi page, or request it over USB with lowercase l. This is not a Home Assistant token. HTTP is unencrypted: use a trusted local network.",
+        "data": {"host": "Knob IP address or hostname", "port": "Port", "device_key": "Device key"}
+      },
+      "lights": {
+        "title": "Choose devices and scenes",
+        "description": "Choose one to eight lights, scenes, or media players. Turn for media volume and press briefly for play/pause.",
+        "data": {"lights": "Lights, scenes, and media players"}
+      },
+      "reauth_confirm": {
+        "title": "Check device key",
+        "data": {"device_key": "Device key"}
+      },
+      "reconfigure": {
+        "title": "Update Knob address",
+        "data": {"host": "Knob IP address or hostname", "port": "Port"}
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect, wrong device, or incompatible firmware. Check the address and local firmware.",
+      "invalid_auth": "The device key was rejected. Copy all 64 characters.",
+      "invalid_selection": "Select one to eight existing lights, scenes, or media players with entity IDs shorter than 64 characters."
+    },
+    "abort": {
+      "already_configured": "This SmartKnob is already configured or ignored.",
+      "unsupported_device": "This device does not support the local protocol.",
+      "cannot_connect": "The discovered device could not be verified.",
+      "reauth_successful": "Device key updated.",
+      "reconfigure_successful": "Device address updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Choose devices and scenes",
+        "description": "After changing this selection, restart the Knob. Media players use rotation for volume and a short press for play/pause.",
+        "data": {"lights": "Lights, scenes, and media players"}
+      }
+    },
+    "error": {"invalid_selection": "Select one to eight existing lights, scenes, or media players with entity IDs shorter than 64 characters."}
+  }
+}
