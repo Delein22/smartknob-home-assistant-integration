@@ -7,6 +7,6 @@
   "integration_type": "device",
   "iot_class": "local_polling",
   "requirements": [],
-  "version": "0.2.1",
+  "version": "0.2.3",
   "zeroconf": ["_smartknob._tcp.local."]
 }

@@ -136,7 +136,9 @@ class Runtime:
             target = self.hass.states.get(data["entity_id"])
             domain = data["entity_id"].split(".", 1)[0]
             app = next((item for item in self.apps if item["entity_id"] == data["entity_id"]), None)
-            if target is None or target.state in ("unknown", "unavailable") or (
+            offline_media_turn_on = (target is not None and domain == "media_player" and
+                                     service == "turn_on" and target.state in ("off", "unavailable"))
+            if target is None or (target.state in ("unknown", "unavailable") and not offline_media_turn_on) or (
                     domain == "light" and target.state not in ("on", "off")):
                 if app and app["app_slug"] == "media_player":
                     self.feedback[app["app_id"]] = (seq, "failed")

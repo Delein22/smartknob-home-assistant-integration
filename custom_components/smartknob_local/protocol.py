@@ -156,7 +156,9 @@ def light_state(app: dict, state: str | None, attributes: dict) -> dict:
         # state-appropriate controls and let HA report a real service failure.
         can_play = bool(features & MEDIA_PLAY) or powered
         can_pause = bool(features & MEDIA_PAUSE) or powered
-        can_turn_on = bool(features & MEDIA_TURN_ON) or (available and not powered)
+        # Samsung TVs commonly become unavailable in standby. Keep turn-on
+        # visible so HA can perform its Wake-on-LAN path in that state.
+        can_turn_on = bool(features & MEDIA_TURN_ON) or state in ("off", "unavailable")
         can_turn_off = bool(features & MEDIA_TURN_OFF) or powered
         return {"app_id": app["app_id"], "available": available,
                 "playing": state == "playing", "volume": round(volume * 100),

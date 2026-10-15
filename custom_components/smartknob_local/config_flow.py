@@ -11,7 +11,7 @@ from homeassistant.core import callback
 from homeassistant.helpers import selector
 
 from .const import CONF_KEY, CONF_LIGHTS, DOMAIN, MAX_ENTITIES
-from .protocol import AuthenticationError, Client, ProtocolError, make_app
+from .protocol import AuthenticationError, Client, ProtocolError, make_app, valid_host
 
 
 def connection_error(err):
@@ -59,7 +59,14 @@ class SmartKnobFlow(config_entries.ConfigFlow, domain=DOMAIN):
         properties = discovery_info.properties
         if properties.get("protocol") != "1":
             return self.async_abort(reason="unsupported_device")
-        self._host, self._port = discovery_info.host, discovery_info.port
+        discovered_hostname = properties.get("hostname")
+        if isinstance(discovered_hostname, bytes):
+            discovered_hostname = discovered_hostname.decode("ascii", errors="ignore")
+        try:
+            self._host = valid_host(discovered_hostname + ".local") if discovered_hostname else discovery_info.host
+        except ProtocolError:
+            self._host = discovery_info.host
+        self._port = discovery_info.port
         self._discovered_id = properties.get("id")
         if not self._discovered_id:
             return self.async_abort(reason="unsupported_device")
